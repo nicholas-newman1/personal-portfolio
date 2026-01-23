@@ -14,18 +14,13 @@ import { WorkExperience, Education } from '@/sanity/types';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 }
 
 function formatDateRange(startDate: string, endDate?: string): string {
   const start = formatDate(startDate);
   const end = endDate ? formatDate(endDate) : 'Present';
   return `${start} - ${end}`;
-}
-
-function formatYear(dateString?: string): string {
-  if (!dateString) return '';
-  return new Date(dateString).getFullYear().toString();
 }
 
 export default async function ExperiencePage() {
@@ -166,7 +161,7 @@ export default async function ExperiencePage() {
                       {edu.honors && ` · ${edu.honors}`}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {formatYear(edu.startDate)} - {formatYear(edu.endDate)}
+                      {edu.startDate && formatDateRange(edu.startDate, edu.endDate)}
                       {edu.gpa && ` · GPA: ${edu.gpa}`}
                     </Typography>
                   </Box>

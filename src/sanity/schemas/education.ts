@@ -36,7 +36,7 @@ export const education = defineType({
       title: 'Start Date',
       type: 'date',
       options: {
-        dateFormat: 'YYYY',
+        dateFormat: 'MMMM YYYY',
       },
     }),
     defineField({
@@ -44,7 +44,7 @@ export const education = defineType({
       title: 'End Date / Graduation',
       type: 'date',
       options: {
-        dateFormat: 'YYYY',
+        dateFormat: 'MMMM YYYY',
       },
     }),
     defineField({
