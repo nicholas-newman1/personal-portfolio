@@ -4,122 +4,397 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { client } from '@/sanity/client';
-import { projectsQuery, siteSettingsQuery } from '@/sanity/queries';
-import { Project, SiteSettings } from '@/sanity/types';
+import { projectsQuery, siteSettingsQuery, workExperienceQuery, educationQuery } from '@/sanity/queries';
+import { Project, SiteSettings, WorkExperience, Education } from '@/sanity/types';
+import AnimatedSection from '@/components/AnimatedSection';
+import SectionHeader from '@/components/SectionHeader';
+import StatusChip from '@/components/StatusChip';
+import AchievementBox from '@/components/AchievementBox';
+import EmptyState from '@/components/EmptyState';
+import ChipList from '@/components/ChipList';
+import LogoAvatar from '@/components/LogoAvatar';
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
+
+function formatDateRange(startDate: string, endDate?: string): string {
+  const start = formatDate(startDate);
+  const end = endDate ? formatDate(endDate) : 'Present';
+  return `${start} — ${end}`;
+}
 
 export default async function Home() {
-  const [projects, settings] = await Promise.all([
+  const [projects, settings, experiences, educations] = await Promise.all([
     client.fetch<Project[]>(projectsQuery),
     client.fetch<SiteSettings | null>(siteSettingsQuery),
+    client.fetch<WorkExperience[]>(workExperienceQuery),
+    client.fetch<Education[]>(educationQuery),
   ]);
 
   return (
     <Container maxWidth="md">
       {/* Hero Section */}
-      <Box sx={{ py: 8, textAlign: 'center' }}>
-        <Typography variant="h2" component="h1" gutterBottom fontWeight={600}>
-          Nicholas Newman
-        </Typography>
-        <Typography variant="h5" color="text.secondary" sx={{ mb: 3 }}>
-          Software Engineer
-        </Typography>
-        <Stack direction="row" spacing={2} justifyContent="center">
-          <Button
-            href="/experience"
-            variant="contained"
-            size="large"
+      <Box sx={{ py: { xs: 10, md: 16 }, textAlign: 'center' }}>
+        <AnimatedSection>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: 'primary.main',
+              fontWeight: 500,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              mb: 2,
+            }}
           >
-            View Experience
-          </Button>
-          {settings?.resumeUrl && (
+            Software Engineer
+          </Typography>
+        </AnimatedSection>
+        
+        <AnimatedSection delay={100}>
+          <Typography 
+            variant="h1" 
+            component="h1" 
+            sx={{ 
+              fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
+              fontWeight: 600,
+              mb: 3,
+              lineHeight: 1.1,
+            }}
+          >
+            Nicholas Newman
+          </Typography>
+        </AnimatedSection>
+        
+        <AnimatedSection delay={200}>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              color: 'text.secondary',
+              maxWidth: 500,
+              mx: 'auto',
+              mb: 5,
+              fontSize: '1.125rem',
+              lineHeight: 1.7,
+            }}
+          >
+            Building elegant solutions with modern technologies. 
+            Passionate about clean code and great user experiences.
+          </Typography>
+        </AnimatedSection>
+        
+        <AnimatedSection delay={300}>
+          <Stack direction="row" spacing={2} justifyContent="center">
             <Button
-              href={settings.resumeUrl}
-              target="_blank"
-              rel="noopener"
-              variant="outlined"
+              href="#experience"
+              variant="contained"
               size="large"
+              sx={{ px: 4, py: 1.5 }}
             >
-              Download Resume
+              View Experience
             </Button>
-          )}
-        </Stack>
+            {settings?.resumeUrl && (
+              <Button
+                href={settings.resumeUrl}
+                target="_blank"
+                rel="noopener"
+                variant="outlined"
+                size="large"
+                sx={{ px: 4, py: 1.5 }}
+              >
+                Download Resume
+              </Button>
+            )}
+          </Stack>
+        </AnimatedSection>
       </Box>
 
       {/* Projects Section */}
-      <Box sx={{ py: 4 }}>
-        <Typography variant="h3" component="h2" gutterBottom>
-          Projects
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          Projects I&apos;ve built
-        </Typography>
+      <Box id="projects" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
+        <SectionHeader 
+          label="Portfolio"
+          title="Projects"
+          description="A selection of projects I've built"
+        />
 
         <Stack spacing={3}>
-          {projects.map((project) => (
-            <Card key={project._id} sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
-              {project.imageUrl && (
-                <CardMedia
-                  component="img"
-                  sx={{ width: { xs: '100%', sm: 200 }, height: { xs: 200, sm: 'auto' } }}
-                  image={project.imageUrl}
-                  alt={project.title}
-                />
-              )}
-              <CardContent sx={{ flex: 1 }}>
-                <Typography variant="h5" component="h3" gutterBottom>
-                  {project.title}
-                  {project.featured && (
-                    <Chip label="Featured" size="small" color="primary" sx={{ ml: 1 }} />
-                  )}
-                </Typography>
-                {project.description && (
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    {project.description}
-                  </Typography>
+          {projects.map((project, index) => (
+            <AnimatedSection key={project._id} delay={index * 100}>
+              <Card 
+                sx={{ 
+                  display: 'flex', 
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  overflow: 'hidden',
+                }}
+              >
+                {project.imageUrl && (
+                  <CardMedia
+                    component="img"
+                    sx={{ 
+                      width: { xs: '100%', sm: 220 }, 
+                      height: { xs: 180, sm: 'auto' },
+                      objectFit: 'cover',
+                    }}
+                    image={project.imageUrl}
+                    alt={project.title}
+                  />
                 )}
-                {project.techStack && project.techStack.length > 0 && (
-                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 2 }}>
-                    {project.techStack.map((tech) => (
-                      <Chip key={tech} label={tech} size="small" variant="outlined" />
-                    ))}
-                  </Stack>
-                )}
-                {project.achievements && project.achievements.length > 0 && (
-                  <Box sx={{ mb: 2, p: 1.5, bgcolor: 'action.hover', borderRadius: 1 }}>
-                    <Typography variant="caption" fontWeight="medium">
-                      🏆 {project.achievements.map(a => a.title).join(', ')}
+                <CardContent sx={{ flex: 1, p: { xs: 2.5, sm: 3 } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                    <Typography variant="h5" component="h3" sx={{ fontWeight: 500 }}>
+                      {project.title}
                     </Typography>
+                    {project.featured && <StatusChip label="Featured" />}
                   </Box>
-                )}
-                <Stack direction="row" spacing={2}>
-                  {project.liveUrl && (
-                    <Link href={project.liveUrl} target="_blank" rel="noopener">
-                      Live Demo
-                    </Link>
+                  
+                  {project.description && (
+                    <Typography 
+                      variant="body2" 
+                      sx={{ color: 'text.secondary', mb: 2.5, lineHeight: 1.6 }}
+                    >
+                      {project.description}
+                    </Typography>
                   )}
-                  {project.githubUrl && (
-                    <Link href={project.githubUrl} target="_blank" rel="noopener">
-                      GitHub
-                    </Link>
+                  
+                  <ChipList items={project.techStack || []} sx={{ mb: 2.5 }} />
+                  
+                  {project.achievements && project.achievements.length > 0 && (
+                    <Box sx={{ mb: 2.5 }}>
+                      <AchievementBox achievements={project.achievements} />
+                    </Box>
                   )}
-                </Stack>
-              </CardContent>
-            </Card>
+                  
+                  <Stack direction="row" spacing={3}>
+                    {project.liveUrl && (
+                      <Link 
+                        href={project.liveUrl} 
+                        target="_blank" 
+                        rel="noopener"
+                        sx={{ fontSize: '0.875rem', fontWeight: 500 }}
+                      >
+                        Live Demo →
+                      </Link>
+                    )}
+                    {project.githubUrl && (
+                      <Link 
+                        href={project.githubUrl} 
+                        target="_blank" 
+                        rel="noopener"
+                        sx={{ fontSize: '0.875rem', fontWeight: 500 }}
+                      >
+                        GitHub →
+                      </Link>
+                    )}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
           ))}
 
           {projects.length === 0 && (
-            <Typography color="text.secondary">
-              No projects yet. Add some in the Studio!
-            </Typography>
+            <EmptyState message="No projects yet. Add some in the Studio!" />
           )}
         </Stack>
       </Box>
+
+      {/* Experience Section */}
+      <Box id="experience" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
+        <SectionHeader 
+          label="Career"
+          title="Experience"
+          description="My professional journey and the impact I've made"
+        />
+
+        <Stack spacing={3}>
+          {experiences.map((exp, index) => (
+            <AnimatedSection key={exp._id} delay={index * 100}>
+              <Card>
+                <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
+                  <Box sx={{ display: 'flex', gap: 2.5, mb: 2.5 }}>
+                    {exp.companyLogoUrl && (
+                      <LogoAvatar src={exp.companyLogoUrl} alt={exp.company} />
+                    )}
+                    <Box sx={{ flex: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', mb: 0.5 }}>
+                        <Typography variant="h5" component="h3" sx={{ fontWeight: 500 }}>
+                          {exp.role}
+                        </Typography>
+                        {!exp.endDate && <StatusChip label="Current" />}
+                      </Box>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {exp.companyUrl ? (
+                          <Link 
+                            href={exp.companyUrl} 
+                            target="_blank" 
+                            rel="noopener"
+                            sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+                          >
+                            {exp.company}
+                          </Link>
+                        ) : (
+                          exp.company
+                        )}
+                        <Box component="span" sx={{ mx: 1, opacity: 0.5 }}>·</Box>
+                        {formatDateRange(exp.startDate, exp.endDate)}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {exp.bullets && exp.bullets.length > 0 && (
+                    <Box 
+                      component="ul" 
+                      sx={{ 
+                        pl: 2.5, 
+                        mb: 2.5,
+                        '& li': {
+                          mb: 1,
+                          color: 'text.secondary',
+                          '&::marker': { color: 'primary.main' },
+                        },
+                      }}
+                    >
+                      {exp.bullets.map((bullet, idx) => (
+                        <Typography 
+                          component="li" 
+                          variant="body2" 
+                          key={idx} 
+                          sx={{ lineHeight: 1.6 }}
+                        >
+                          {bullet}
+                        </Typography>
+                      ))}
+                    </Box>
+                  )}
+
+                  <ChipList 
+                    items={exp.skills || []} 
+                    sx={{ mb: exp.achievements && exp.achievements.length > 0 ? 2.5 : 0 }} 
+                  />
+
+                  {exp.achievements && exp.achievements.length > 0 && (
+                    <AchievementBox achievements={exp.achievements} showDetails />
+                  )}
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+          ))}
+
+          {experiences.length === 0 && (
+            <EmptyState message="No work experience added yet. Add some in the Studio!" />
+          )}
+        </Stack>
+      </Box>
+
+      {/* Education Section */}
+      <Box id="education" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
+        <SectionHeader 
+          label="Background"
+          title="Education"
+          description="My academic foundation and qualifications"
+        />
+
+        <Stack spacing={3}>
+          {educations.map((edu, index) => (
+            <AnimatedSection key={edu._id} delay={index * 100}>
+              <Card>
+                <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
+                  <Box sx={{ display: 'flex', gap: 2.5, alignItems: 'flex-start' }}>
+                    {edu.schoolLogoUrl && (
+                      <LogoAvatar src={edu.schoolLogoUrl} alt={edu.school} />
+                    )}
+                    <Box sx={{ flex: 1 }}>
+                      <Typography 
+                        variant="h5" 
+                        component="h3" 
+                        sx={{ fontWeight: 500, mb: 0.5 }}
+                      >
+                        {edu.schoolUrl ? (
+                          <Link 
+                            href={edu.schoolUrl} 
+                            target="_blank" 
+                            rel="noopener"
+                            sx={{ 
+                              color: 'text.primary', 
+                              textDecoration: 'none',
+                              '&:hover': { color: 'primary.main' } 
+                            }}
+                          >
+                            {edu.school}
+                          </Link>
+                        ) : (
+                          edu.school
+                        )}
+                      </Typography>
+                      
+                      <Box 
+                        sx={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: 1.5, 
+                          flexWrap: 'wrap',
+                          mb: 0.5 
+                        }}
+                      >
+                        <Typography variant="body1" sx={{ color: 'text.primary' }}>
+                          {edu.degree}
+                        </Typography>
+                        {edu.honors && <StatusChip label={edu.honors} />}
+                      </Box>
+                      
+                      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+                        {edu.startDate && (
+                          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                            {formatDateRange(edu.startDate, edu.endDate)}
+                          </Typography>
+                        )}
+                        {edu.gpa && (
+                          <>
+                            <Box 
+                              component="span" 
+                              sx={{ 
+                                width: 4, 
+                                height: 4, 
+                                borderRadius: '50%', 
+                                bgcolor: 'divider',
+                              }} 
+                            />
+                            <Typography 
+                              variant="body2" 
+                              sx={{ 
+                                color: 'text.secondary',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 0.5,
+                              }}
+                            >
+                              GPA: 
+                              <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>
+                                {edu.gpa}
+                              </Box>
+                            </Typography>
+                          </>
+                        )}
+                      </Box>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+          ))}
+
+          {educations.length === 0 && (
+            <EmptyState message="No education added yet. Add some in the Studio!" />
+          )}
+        </Stack>
+      </Box>
+
+      {/* Footer spacing */}
+      <Box sx={{ pb: 8 }} />
     </Container>
   );
 }
-
