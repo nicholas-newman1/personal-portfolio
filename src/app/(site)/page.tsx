@@ -7,6 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import Image from 'next/image';
 import { client } from '@/sanity/client';
 import { projectsQuery, siteSettingsQuery, workExperienceQuery, educationQuery } from '@/sanity/queries';
 import { Project, SiteSettings, WorkExperience, Education } from '@/sanity/types';
@@ -41,7 +42,34 @@ export default async function Home() {
     <Container maxWidth="md">
       {/* Hero Section */}
       <Box sx={{ py: { xs: 10, md: 16 }, textAlign: 'center' }}>
-        <AnimatedSection>
+        {settings?.headshotUrl && (
+          <AnimatedSection>
+            <Box
+              sx={{
+                width: { xs: 140, md: 180 },
+                height: { xs: 140, md: 180 },
+                mx: 'auto',
+                mb: 4,
+                position: 'relative',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+                border: '4px solid',
+                borderColor: 'background.paper',
+              }}
+            >
+              <Image
+                src={settings.headshotUrl}
+                alt="Nicholas Newman"
+                fill
+                priority
+                style={{ objectFit: 'cover' }}
+              />
+            </Box>
+          </AnimatedSection>
+        )}
+
+        <AnimatedSection delay={100}>
           <Typography 
             variant="body2" 
             sx={{ 
@@ -56,7 +84,7 @@ export default async function Home() {
           </Typography>
         </AnimatedSection>
         
-        <AnimatedSection delay={100}>
+        <AnimatedSection delay={200}>
           <Typography 
             variant="h1" 
             component="h1" 
@@ -71,7 +99,7 @@ export default async function Home() {
           </Typography>
         </AnimatedSection>
         
-        <AnimatedSection delay={200}>
+        <AnimatedSection delay={300}>
           <Typography 
             variant="body1" 
             sx={{ 
@@ -88,7 +116,7 @@ export default async function Home() {
           </Typography>
         </AnimatedSection>
         
-        <AnimatedSection delay={300}>
+        <AnimatedSection delay={400}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
               href="#experience"

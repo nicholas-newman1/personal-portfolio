@@ -66,6 +66,7 @@ export const siteSettingsQuery = groq`
     _id,
     title,
     description,
+    "headshotUrl": headshot.asset->url,
     "resumeUrl": resumePdf.asset->url,
     email,
     linkedIn,

@@ -6,6 +6,15 @@ export const siteSettings = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'headshot',
+      title: 'Headshot',
+      type: 'image',
+      description: 'Your profile photo for the hero section',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'title',
       title: 'Site Title',
       type: 'string',

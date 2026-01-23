@@ -46,6 +46,7 @@ export interface SiteSettings {
   _id: string;
   title?: string;
   description?: string;
+  headshotUrl?: string;
   resumeUrl?: string;
   email?: string;
   linkedIn?: string;
