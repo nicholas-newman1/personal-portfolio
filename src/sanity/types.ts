@@ -9,5 +9,45 @@ export interface Project {
   githubUrl?: string;
   featured?: boolean;
   publishedAt?: string;
+  achievements?: Achievement[];
 }
 
+export interface Achievement {
+  title: string;
+  description?: string;
+}
+
+export interface WorkExperience {
+  _id: string;
+  company: string;
+  companyUrl?: string;
+  companyLogoUrl?: string;
+  role: string;
+  startDate: string;
+  endDate?: string;
+  bullets?: string[];
+  skills?: string[];
+  achievements?: Achievement[];
+}
+
+export interface Education {
+  _id: string;
+  school: string;
+  schoolUrl?: string;
+  schoolLogoUrl?: string;
+  degree: string;
+  startDate?: string;
+  endDate?: string;
+  gpa?: number;
+  honors?: string;
+}
+
+export interface SiteSettings {
+  _id: string;
+  title?: string;
+  description?: string;
+  resumeUrl?: string;
+  email?: string;
+  linkedIn?: string;
+  github?: string;
+}

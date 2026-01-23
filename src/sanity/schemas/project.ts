@@ -69,6 +69,21 @@ export const project = defineType({
       title: 'Published At',
       type: 'datetime',
     }),
+    defineField({
+      name: 'achievements',
+      title: 'Achievements / Awards',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'description', title: 'Description', type: 'text', rows: 2 },
+          ],
+        },
+      ],
+      description: 'Awards or recognition for this project',
+    }),
   ],
   preview: {
     select: {

@@ -6,22 +6,57 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { client } from '@/sanity/client';
-import { projectsQuery } from '@/sanity/queries';
-import { Project } from '@/sanity/types';
+import { projectsQuery, siteSettingsQuery } from '@/sanity/queries';
+import { Project, SiteSettings } from '@/sanity/types';
 
 export default async function Home() {
-  const projects = await client.fetch<Project[]>(projectsQuery);
+  const [projects, settings] = await Promise.all([
+    client.fetch<Project[]>(projectsQuery),
+    client.fetch<SiteSettings | null>(siteSettingsQuery),
+  ]);
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ py: 8 }}>
-        <Typography variant="h2" component="h1" gutterBottom>
+      {/* Hero Section */}
+      <Box sx={{ py: 8, textAlign: 'center' }}>
+        <Typography variant="h2" component="h1" gutterBottom fontWeight={600}>
+          Nicholas Newman
+        </Typography>
+        <Typography variant="h5" color="text.secondary" sx={{ mb: 3 }}>
+          Software Engineer
+        </Typography>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <Button
+            href="/experience"
+            variant="contained"
+            size="large"
+          >
+            View Experience
+          </Button>
+          {settings?.resumeUrl && (
+            <Button
+              href={settings.resumeUrl}
+              target="_blank"
+              rel="noopener"
+              variant="outlined"
+              size="large"
+            >
+              Download Resume
+            </Button>
+          )}
+        </Stack>
+      </Box>
+
+      {/* Projects Section */}
+      <Box sx={{ py: 4 }}>
+        <Typography variant="h3" component="h2" gutterBottom>
           Projects
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          Frontend projects I&apos;ve built
+          Projects I&apos;ve built
         </Typography>
 
         <Stack spacing={3}>
@@ -36,7 +71,7 @@ export default async function Home() {
                 />
               )}
               <CardContent sx={{ flex: 1 }}>
-                <Typography variant="h5" component="h2" gutterBottom>
+                <Typography variant="h5" component="h3" gutterBottom>
                   {project.title}
                   {project.featured && (
                     <Chip label="Featured" size="small" color="primary" sx={{ ml: 1 }} />
@@ -53,6 +88,13 @@ export default async function Home() {
                       <Chip key={tech} label={tech} size="small" variant="outlined" />
                     ))}
                   </Stack>
+                )}
+                {project.achievements && project.achievements.length > 0 && (
+                  <Box sx={{ mb: 2, p: 1.5, bgcolor: 'action.hover', borderRadius: 1 }}>
+                    <Typography variant="caption" fontWeight="medium">
+                      🏆 {project.achievements.map(a => a.title).join(', ')}
+                    </Typography>
+                  </Box>
                 )}
                 <Stack direction="row" spacing={2}>
                   {project.liveUrl && (
@@ -80,3 +122,4 @@ export default async function Home() {
     </Container>
   );
 }
+
