@@ -1,0 +1,19 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="180" height="180" fill="#09090b"/>
+  <path 
+    d="M53 135V45h20l42 62V45h20v90h-20l-42-62v62H53z" 
+    fill="#10b981"
+  />
+  <path 
+    d="M53 135V45h20l42 62V45h20v90h-20l-42-62v62H53z" 
+    fill="url(#shine)"
+    fill-opacity="0.3"
+  />
+  <defs>
+    <linearGradient id="shine" x1="53" y1="45" x2="135" y2="135" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34d399"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+
