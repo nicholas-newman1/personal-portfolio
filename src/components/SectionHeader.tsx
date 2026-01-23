@@ -13,7 +13,7 @@ const Label = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const Title = styled(Typography)(({ theme }) => ({
+const Title = styled(Typography)<{ component?: React.ElementType }>(({ theme }) => ({
   fontSize: '2rem',
   marginBottom: theme.spacing(1),
   [theme.breakpoints.up('md')]: {
