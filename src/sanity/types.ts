@@ -51,4 +51,5 @@ export interface SiteSettings {
   email?: string;
   linkedIn?: string;
   github?: string;
+  about?: string;
 }

@@ -207,6 +207,37 @@ export default async function Home() {
 
       <SectionDivider />
 
+      {/* About Section */}
+      {settings?.about && (
+        <Box id="about" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
+          <SectionHeader 
+            label="Introduction"
+            title="About Me"
+            description="A glimpse into who I am and what drives me"
+          />
+          
+          <AnimatedSection>
+            <Card>
+              <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    color: 'text.secondary',
+                    lineHeight: 1.8,
+                    fontSize: '1.0625rem',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {settings.about}
+                </Typography>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
+        </Box>
+      )}
+
+      {settings?.about && <SectionDivider />}
+
       {/* Experience Section */}
       <Box id="experience" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
         <SectionHeader 

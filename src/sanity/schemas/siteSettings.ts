@@ -50,6 +50,13 @@ export const siteSettings = defineType({
       title: 'GitHub URL',
       type: 'url',
     }),
+    defineField({
+      name: 'about',
+      title: 'About Me',
+      type: 'text',
+      rows: 5,
+      description: 'A brief introduction about yourself, your background, and what you do',
+    }),
   ],
   preview: {
     prepare() {

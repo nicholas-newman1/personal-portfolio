@@ -70,6 +70,7 @@ export const siteSettingsQuery = groq`
     "resumeUrl": resumePdf.asset->url,
     email,
     linkedIn,
-    github
+    github,
+    about
   }
 `;
