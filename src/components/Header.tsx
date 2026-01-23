@@ -32,6 +32,9 @@ export default function Header({ resumeUrl }: HeaderProps) {
             <Button href="/experience" color="inherit">
               Experience
             </Button>
+            <Button href="/education" color="inherit">
+              Education
+            </Button>
             {resumeUrl && (
               <Button
                 href={resumeUrl}

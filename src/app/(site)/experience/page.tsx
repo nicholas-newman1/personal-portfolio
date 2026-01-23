@@ -7,10 +7,9 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
 import { client } from '@/sanity/client';
-import { workExperienceQuery, educationQuery } from '@/sanity/queries';
-import { WorkExperience, Education } from '@/sanity/types';
+import { workExperienceQuery } from '@/sanity/queries';
+import { WorkExperience } from '@/sanity/types';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -24,10 +23,7 @@ function formatDateRange(startDate: string, endDate?: string): string {
 }
 
 export default async function ExperiencePage() {
-  const [experiences, educations] = await Promise.all([
-    client.fetch<WorkExperience[]>(workExperienceQuery),
-    client.fetch<Education[]>(educationQuery),
-  ]);
+  const experiences = await client.fetch<WorkExperience[]>(workExperienceQuery);
 
   return (
     <Container maxWidth="md">
@@ -36,14 +32,9 @@ export default async function ExperiencePage() {
           Experience
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 6 }}>
-          My professional journey and education
+          My professional journey
         </Typography>
-
-        {/* Work Experience */}
-        <Typography variant="h4" component="h2" sx={{ mb: 3 }}>
-          Work
-        </Typography>
-        <Stack spacing={3} sx={{ mb: 6 }}>
+        <Stack spacing={3}>
           {experiences.map((exp) => (
             <Card key={exp._id}>
               <CardContent>
@@ -123,56 +114,6 @@ export default async function ExperiencePage() {
           {experiences.length === 0 && (
             <Typography color="text.secondary">
               No work experience added yet. Add some in the Studio!
-            </Typography>
-          )}
-        </Stack>
-
-        <Divider sx={{ my: 4 }} />
-
-        {/* Education */}
-        <Typography variant="h4" component="h2" sx={{ mb: 3 }}>
-          Education
-        </Typography>
-        <Stack spacing={3}>
-          {educations.map((edu) => (
-            <Card key={edu._id}>
-              <CardContent>
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                  {edu.schoolLogoUrl && (
-                    <Avatar
-                      src={edu.schoolLogoUrl}
-                      alt={edu.school}
-                      variant="rounded"
-                      sx={{ width: 48, height: 48 }}
-                    />
-                  )}
-                  <Box>
-                    <Typography variant="h6" component="h3">
-                      {edu.schoolUrl ? (
-                        <Link href={edu.schoolUrl} target="_blank" rel="noopener" color="inherit">
-                          {edu.school}
-                        </Link>
-                      ) : (
-                        edu.school
-                      )}
-                    </Typography>
-                    <Typography variant="body1">
-                      {edu.degree}
-                      {edu.honors && ` · ${edu.honors}`}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {edu.startDate && formatDateRange(edu.startDate, edu.endDate)}
-                      {edu.gpa && ` · GPA: ${edu.gpa}`}
-                    </Typography>
-                  </Box>
-                </Box>
-              </CardContent>
-            </Card>
-          ))}
-
-          {educations.length === 0 && (
-            <Typography color="text.secondary">
-              No education added yet. Add some in the Studio!
             </Typography>
           )}
         </Stack>
