@@ -74,11 +74,11 @@ export default function Header({ resumeUrl }: HeaderProps) {
           </MuiLink>
 
           <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 }, alignItems: 'center' }}>
-            <Button href="#projects" sx={navItemStyles}>
-              Projects
-            </Button>
             <Button href="#experience" sx={navItemStyles}>
               Experience
+            </Button>
+            <Button href="#projects" sx={navItemStyles}>
+              Projects
             </Button>
             <Button href="#education" sx={navItemStyles}>
               Education

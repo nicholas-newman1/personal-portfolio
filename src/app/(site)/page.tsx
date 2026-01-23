@@ -7,12 +7,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { client } from '@/sanity/client';
 import { projectsQuery, siteSettingsQuery, workExperienceQuery, educationQuery } from '@/sanity/queries';
 import { Project, SiteSettings, WorkExperience, Education } from '@/sanity/types';
 import AnimatedSection from '@/components/AnimatedSection';
 import SectionHeader from '@/components/SectionHeader';
+import SectionDivider from '@/components/SectionDivider';
 import StatusChip from '@/components/StatusChip';
 import AchievementBox from '@/components/AchievementBox';
 import EmptyState from '@/components/EmptyState';
@@ -41,21 +45,152 @@ export default async function Home() {
   return (
     <Container maxWidth="md">
       {/* Hero Section */}
-      <Box sx={{ py: { xs: 10, md: 16 }, textAlign: 'center' }}>
-        {settings?.headshotUrl && (
+      <Box
+        sx={{
+          py: { xs: 10, md: 16 },
+          display: 'flex',
+          flexDirection: { xs: 'column-reverse', md: 'row' },
+          alignItems: 'center',
+          gap: { xs: 6, md: 8 },
+        }}
+      >
+        <Box sx={{ flex: 1, textAlign: { xs: 'center', md: 'left' } }}>
           <AnimatedSection>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: 'primary.main',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                mb: 2,
+              }}
+            >
+              Software Engineer
+            </Typography>
+          </AnimatedSection>
+          
+          <AnimatedSection delay={100}>
+            <Typography 
+              variant="h1" 
+              component="h1" 
+              sx={{ 
+                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '3.5rem' },
+                fontWeight: 600,
+                mb: 3,
+                lineHeight: 1.1,
+              }}
+            >
+              Nicholas Newman
+            </Typography>
+          </AnimatedSection>
+          
+          <AnimatedSection delay={200}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: 'text.secondary',
+                maxWidth: { xs: 500, md: 420 },
+                mx: { xs: 'auto', md: 0 },
+                mb: 4,
+                fontSize: '1.125rem',
+                lineHeight: 1.7,
+              }}
+            >
+              Building elegant solutions with modern technologies. 
+              Passionate about clean code and great user experiences.
+            </Typography>
+          </AnimatedSection>
+          
+          <AnimatedSection delay={300}>
+            <Stack 
+              direction="row" 
+              spacing={2} 
+              justifyContent={{ xs: 'center', md: 'flex-start' }}
+              flexWrap="wrap"
+              useFlexGap
+            >
+              <Button
+                href="#experience"
+                variant="contained"
+                size="large"
+                sx={{ px: 4, py: 1.5 }}
+              >
+                View Experience
+              </Button>
+              {settings?.resumeUrl && (
+                <Button
+                  href={settings.resumeUrl}
+                  target="_blank"
+                  rel="noopener"
+                  variant="outlined"
+                  size="large"
+                  sx={{ px: 4, py: 1.5 }}
+                >
+                  Download Resume
+                </Button>
+              )}
+            </Stack>
+          </AnimatedSection>
+
+          {(settings?.github || settings?.linkedIn) && (
+            <AnimatedSection delay={400}>
+              <Stack 
+                direction="row" 
+                spacing={1.5} 
+                justifyContent={{ xs: 'center', md: 'flex-start' }}
+                sx={{ mt: 3 }}
+              >
+                {settings.github && (
+                  <IconButton
+                    href={settings.github}
+                    target="_blank"
+                    rel="noopener"
+                    sx={{
+                      color: 'text.secondary',
+                      '&:hover': {
+                        color: 'primary.main',
+                        backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                      },
+                    }}
+                  >
+                    <GitHubIcon />
+                  </IconButton>
+                )}
+                {settings.linkedIn && (
+                  <IconButton
+                    href={settings.linkedIn}
+                    target="_blank"
+                    rel="noopener"
+                    sx={{
+                      color: 'text.secondary',
+                      '&:hover': {
+                        color: 'primary.main',
+                        backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                      },
+                    }}
+                  >
+                    <LinkedInIcon />
+                  </IconButton>
+                )}
+              </Stack>
+            </AnimatedSection>
+          )}
+        </Box>
+
+        {settings?.headshotUrl && (
+          <AnimatedSection delay={100}>
             <Box
               sx={{
-                width: { xs: 140, md: 180 },
-                height: { xs: 140, md: 180 },
-                mx: 'auto',
-                mb: 4,
+                width: { xs: 200, sm: 260, md: 300 },
+                height: { xs: 200, sm: 260, md: 300 },
+                flexShrink: 0,
                 position: 'relative',
                 borderRadius: '50%',
                 overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
                 border: '4px solid',
-                borderColor: 'background.paper',
+                borderColor: 'primary.main',
               }}
             >
               <Image
@@ -68,79 +203,99 @@ export default async function Home() {
             </Box>
           </AnimatedSection>
         )}
-
-        <AnimatedSection delay={100}>
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              color: 'primary.main',
-              fontWeight: 500,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              mb: 2,
-            }}
-          >
-            Software Engineer
-          </Typography>
-        </AnimatedSection>
-        
-        <AnimatedSection delay={200}>
-          <Typography 
-            variant="h1" 
-            component="h1" 
-            sx={{ 
-              fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
-              fontWeight: 600,
-              mb: 3,
-              lineHeight: 1.1,
-            }}
-          >
-            Nicholas Newman
-          </Typography>
-        </AnimatedSection>
-        
-        <AnimatedSection delay={300}>
-          <Typography 
-            variant="body1" 
-            sx={{ 
-              color: 'text.secondary',
-              maxWidth: 500,
-              mx: 'auto',
-              mb: 5,
-              fontSize: '1.125rem',
-              lineHeight: 1.7,
-            }}
-          >
-            Building elegant solutions with modern technologies. 
-            Passionate about clean code and great user experiences.
-          </Typography>
-        </AnimatedSection>
-        
-        <AnimatedSection delay={400}>
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <Button
-              href="#experience"
-              variant="contained"
-              size="large"
-              sx={{ px: 4, py: 1.5 }}
-            >
-              View Experience
-            </Button>
-            {settings?.resumeUrl && (
-              <Button
-                href={settings.resumeUrl}
-                target="_blank"
-                rel="noopener"
-                variant="outlined"
-                size="large"
-                sx={{ px: 4, py: 1.5 }}
-              >
-                Download Resume
-              </Button>
-            )}
-          </Stack>
-        </AnimatedSection>
       </Box>
+
+      <SectionDivider />
+
+      {/* Experience Section */}
+      <Box id="experience" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
+        <SectionHeader 
+          label="Career"
+          title="Experience"
+          description="My professional journey and the impact I've made"
+        />
+
+        <Stack spacing={3}>
+          {experiences.map((exp, index) => (
+            <AnimatedSection key={exp._id} delay={index * 100}>
+              <Card>
+                <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
+                  <Box sx={{ display: 'flex', gap: 2.5, mb: 2.5 }}>
+                    {exp.companyLogoUrl && (
+                      <LogoAvatar src={exp.companyLogoUrl} alt={exp.company} />
+                    )}
+                    <Box sx={{ flex: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', mb: 0.5 }}>
+                        <Typography variant="h5" component="h3" sx={{ fontWeight: 500 }}>
+                          {exp.role}
+                        </Typography>
+                        {!exp.endDate && <StatusChip label="Current" />}
+                      </Box>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {exp.companyUrl ? (
+                          <Link 
+                            href={exp.companyUrl} 
+                            target="_blank" 
+                            rel="noopener"
+                            sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+                          >
+                            {exp.company}
+                          </Link>
+                        ) : (
+                          exp.company
+                        )}
+                        <Box component="span" sx={{ mx: 1, opacity: 0.5 }}>·</Box>
+                        {formatDateRange(exp.startDate, exp.endDate)}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {exp.bullets && exp.bullets.length > 0 && (
+                    <Box 
+                      component="ul" 
+                      sx={{ 
+                        pl: 2.5, 
+                        mb: 2.5,
+                        '& li': {
+                          mb: 1,
+                          color: 'text.secondary',
+                          '&::marker': { color: 'primary.main' },
+                        },
+                      }}
+                    >
+                      {exp.bullets.map((bullet, idx) => (
+                        <Typography 
+                          component="li" 
+                          variant="body2" 
+                          key={idx} 
+                          sx={{ lineHeight: 1.6 }}
+                        >
+                          {bullet}
+                        </Typography>
+                      ))}
+                    </Box>
+                  )}
+
+                  <ChipList 
+                    items={exp.skills || []} 
+                    sx={{ mb: exp.achievements && exp.achievements.length > 0 ? 2.5 : 0 }} 
+                  />
+
+                  {exp.achievements && exp.achievements.length > 0 && (
+                    <AchievementBox achievements={exp.achievements} showDetails />
+                  )}
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+          ))}
+
+          {experiences.length === 0 && (
+            <EmptyState message="No work experience added yet. Add some in the Studio!" />
+          )}
+        </Stack>
+      </Box>
+
+      <SectionDivider />
 
       {/* Projects Section */}
       <Box id="projects" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
@@ -230,93 +385,7 @@ export default async function Home() {
         </Stack>
       </Box>
 
-      {/* Experience Section */}
-      <Box id="experience" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
-        <SectionHeader 
-          label="Career"
-          title="Experience"
-          description="My professional journey and the impact I've made"
-        />
-
-        <Stack spacing={3}>
-          {experiences.map((exp, index) => (
-            <AnimatedSection key={exp._id} delay={index * 100}>
-              <Card>
-                <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
-                  <Box sx={{ display: 'flex', gap: 2.5, mb: 2.5 }}>
-                    {exp.companyLogoUrl && (
-                      <LogoAvatar src={exp.companyLogoUrl} alt={exp.company} />
-                    )}
-                    <Box sx={{ flex: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', mb: 0.5 }}>
-                        <Typography variant="h5" component="h3" sx={{ fontWeight: 500 }}>
-                          {exp.role}
-                        </Typography>
-                        {!exp.endDate && <StatusChip label="Current" />}
-                      </Box>
-                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        {exp.companyUrl ? (
-                          <Link 
-                            href={exp.companyUrl} 
-                            target="_blank" 
-                            rel="noopener"
-                            sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-                          >
-                            {exp.company}
-                          </Link>
-                        ) : (
-                          exp.company
-                        )}
-                        <Box component="span" sx={{ mx: 1, opacity: 0.5 }}>·</Box>
-                        {formatDateRange(exp.startDate, exp.endDate)}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  {exp.bullets && exp.bullets.length > 0 && (
-                    <Box 
-                      component="ul" 
-                      sx={{ 
-                        pl: 2.5, 
-                        mb: 2.5,
-                        '& li': {
-                          mb: 1,
-                          color: 'text.secondary',
-                          '&::marker': { color: 'primary.main' },
-                        },
-                      }}
-                    >
-                      {exp.bullets.map((bullet, idx) => (
-                        <Typography 
-                          component="li" 
-                          variant="body2" 
-                          key={idx} 
-                          sx={{ lineHeight: 1.6 }}
-                        >
-                          {bullet}
-                        </Typography>
-                      ))}
-                    </Box>
-                  )}
-
-                  <ChipList 
-                    items={exp.skills || []} 
-                    sx={{ mb: exp.achievements && exp.achievements.length > 0 ? 2.5 : 0 }} 
-                  />
-
-                  {exp.achievements && exp.achievements.length > 0 && (
-                    <AchievementBox achievements={exp.achievements} showDetails />
-                  )}
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-          ))}
-
-          {experiences.length === 0 && (
-            <EmptyState message="No work experience added yet. Add some in the Studio!" />
-          )}
-        </Stack>
-      </Box>
+      <SectionDivider />
 
       {/* Education Section */}
       <Box id="education" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
