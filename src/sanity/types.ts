@@ -17,6 +17,8 @@ export interface Achievement {
   description?: string;
 }
 
+import type { PortableTextBlock } from '@portabletext/types';
+
 export interface WorkExperience {
   _id: string;
   company: string;
@@ -25,7 +27,7 @@ export interface WorkExperience {
   role: string;
   startDate: string;
   endDate?: string;
-  bullets?: string[];
+  bullets?: PortableTextBlock[];
   skills?: string[];
   achievements?: Achievement[];
 }

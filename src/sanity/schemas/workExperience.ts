@@ -52,8 +52,21 @@ export const workExperience = defineType({
       name: 'bullets',
       title: 'Accomplishments',
       type: 'array',
-      of: [{ type: 'text', rows: 2 }],
-      description: 'Key accomplishments and responsibilities',
+      of: [
+        {
+          type: 'block',
+          styles: [],
+          lists: [],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+            annotations: [],
+          },
+        },
+      ],
+      description: 'Key accomplishments and responsibilities. Use bold for key phrases.',
     }),
     defineField({
       name: 'skills',

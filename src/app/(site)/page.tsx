@@ -22,6 +22,7 @@ import AchievementBox from '@/components/AchievementBox';
 import EmptyState from '@/components/EmptyState';
 import ChipList from '@/components/ChipList';
 import LogoAvatar from '@/components/LogoAvatar';
+import RichBulletList from '@/components/RichBulletList';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -282,29 +283,7 @@ export default async function Home() {
                   </Box>
 
                   {exp.bullets && exp.bullets.length > 0 && (
-                    <Box 
-                      component="ul" 
-                      sx={{ 
-                        pl: 2.5, 
-                        mb: 2.5,
-                        '& li': {
-                          mb: 1,
-                          color: 'text.secondary',
-                          '&::marker': { color: 'primary.main' },
-                        },
-                      }}
-                    >
-                      {exp.bullets.map((bullet, idx) => (
-                        <Typography 
-                          component="li" 
-                          variant="body2" 
-                          key={idx} 
-                          sx={{ lineHeight: 1.6 }}
-                        >
-                          {bullet}
-                        </Typography>
-                      ))}
-                    </Box>
+                    <RichBulletList bullets={exp.bullets} />
                   )}
 
                   <ChipList 
