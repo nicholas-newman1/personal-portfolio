@@ -15,7 +15,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { Theme } from '@mui/material/styles';
+import { Theme, alpha, useTheme } from '@mui/material/styles';
+import Logo from './Logo';
 
 interface HeaderProps {
   resumeUrl?: string;
@@ -58,6 +59,7 @@ const navItemStyles = {
 };
 
 export default function Header({ resumeUrl }: HeaderProps) {
+  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -74,7 +76,7 @@ export default function Header({ resumeUrl }: HeaderProps) {
         position="sticky" 
         elevation={0}
         sx={{
-          backgroundColor: (theme: Theme) => `rgba(${theme.palette.mode === 'dark' ? '9, 9, 11' : '255, 255, 255'}, 0.8)`,
+          backgroundColor: alpha(theme.palette.background.default, 0.8),
           backdropFilter: 'blur(12px)',
           borderBottom: 1,
           borderColor: 'divider',
@@ -90,28 +92,11 @@ export default function Header({ resumeUrl }: HeaderProps) {
                 alignItems: 'center',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.6))',
+                  filter: `drop-shadow(0 0 8px ${alpha(theme.palette.primary.main, 0.6)})`,
                 },
               }}
             >
-              <svg width="36" height="36" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="512" height="512" rx="96" fill="#09090b"/>
-                <path 
-                  d="M152 384V128h56l120 176V128h56v256h-56L208 208v176h-56z" 
-                  fill="#10b981"
-                />
-                <path 
-                  d="M152 384V128h56l120 176V128h56v256h-56L208 208v176h-56z" 
-                  fill="url(#headerShine)"
-                  fillOpacity="0.3"
-                />
-                <defs>
-                  <linearGradient id="headerShine" x1="152" y1="128" x2="384" y2="384" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#34d399"/>
-                    <stop offset="1" stopColor="#10b981" stopOpacity="0"/>
-                  </linearGradient>
-                </defs>
-              </svg>
+              <Logo size={36} showShine />
             </MuiLink>
 
             {/* Desktop Navigation */}
@@ -130,14 +115,14 @@ export default function Header({ resumeUrl }: HeaderProps) {
                   size="small"
                   sx={{
                     ml: 1,
-                    borderColor: (theme: Theme) => `${theme.palette.primary.main}80`,
+                    borderColor: alpha(theme.palette.primary.main, 0.5),
                     color: 'primary.main',
                     fontSize: '0.8125rem',
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       borderColor: 'primary.main',
-                      backgroundColor: (theme: Theme) => `${theme.palette.primary.main}1a`,
-                      boxShadow: (theme: Theme) => `0 0 20px ${theme.palette.primary.main}33`,
+                      backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                      boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.2)}`,
                     },
                   }}
                 >
@@ -194,7 +179,7 @@ export default function Header({ resumeUrl }: HeaderProps) {
                     py: 2,
                     borderRadius: 2,
                     '&:hover': {
-                      backgroundColor: (theme: Theme) => `${theme.palette.primary.main}14`,
+                      backgroundColor: alpha(theme.palette.primary.main, 0.08),
                     },
                   }}
                 >
@@ -220,13 +205,13 @@ export default function Header({ resumeUrl }: HeaderProps) {
                 fullWidth
                 sx={{
                   py: 1.5,
-                  borderColor: (theme: Theme) => `${theme.palette.primary.main}80`,
+                  borderColor: alpha(theme.palette.primary.main, 0.5),
                   color: 'primary.main',
                   fontSize: '1rem',
                   fontWeight: 500,
                   '&:hover': {
                     borderColor: 'primary.main',
-                    backgroundColor: (theme: Theme) => `${theme.palette.primary.main}1a`,
+                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
                   },
                 }}
               >

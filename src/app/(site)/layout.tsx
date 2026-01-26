@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Box from '@mui/material/Box';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { client } from '@/sanity/client';
 import { siteSettingsQuery } from '@/sanity/queries';
 import { SiteSettings } from '@/sanity/types';
@@ -27,6 +28,7 @@ export default async function SiteLayout({
       <Box component="main" sx={{ flex: 1 }}>
         {children}
       </Box>
+      <Footer github={settings?.github} linkedIn={settings?.linkedIn} />
     </Box>
   );
 }

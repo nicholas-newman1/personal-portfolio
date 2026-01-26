@@ -520,8 +520,6 @@ export default async function Home() {
         </AnimatedSection>
       </Box>
 
-      {/* Footer spacing */}
-      <Box sx={{ pb: 8 }} />
     </Container>
   );
 }
