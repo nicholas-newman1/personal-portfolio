@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
+import { alpha } from '@mui/material/styles';
 import Image from 'next/image';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -135,49 +136,73 @@ export default async function Home() {
             </Stack>
           </AnimatedSection>
 
-          {(settings?.github || settings?.linkedIn) && (
-            <AnimatedSection delay={400}>
-              <Stack 
-                direction="row" 
-                spacing={1.5} 
-                justifyContent={{ xs: 'center', md: 'flex-start' }}
-                sx={{ mt: 3 }}
+          <AnimatedSection delay={400}>
+            <Stack 
+              direction="row" 
+              spacing={1.5} 
+              alignItems="center"
+              justifyContent={{ xs: 'center', md: 'flex-start' }}
+              sx={{ mt: 3 }}
+            >
+              {settings?.github && (
+                <IconButton
+                  href={settings.github}
+                  target="_blank"
+                  rel="noopener"
+                  sx={{
+                    color: 'text.secondary',
+                    '&:hover': {
+                      color: 'primary.main',
+                      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+                    },
+                  }}
+                >
+                  <GitHubIcon />
+                </IconButton>
+              )}
+              {settings?.linkedIn && (
+                <IconButton
+                  href={settings.linkedIn}
+                  target="_blank"
+                  rel="noopener"
+                  sx={{
+                    color: 'text.secondary',
+                    '&:hover': {
+                      color: 'primary.main',
+                      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+                    },
+                  }}
+                >
+                  <LinkedInIcon />
+                </IconButton>
+              )}
+              {(settings?.github || settings?.linkedIn) && (
+                <Box 
+                  component="span" 
+                  sx={{ 
+                    width: 4, 
+                    height: 4, 
+                    borderRadius: '50%', 
+                    bgcolor: 'divider',
+                    mx: 0.5,
+                  }} 
+                />
+              )}
+              <Link
+                href="#contact"
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: '0.875rem',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    color: 'primary.main',
+                  },
+                }}
               >
-                {settings.github && (
-                  <IconButton
-                    href={settings.github}
-                    target="_blank"
-                    rel="noopener"
-                    sx={{
-                      color: 'text.secondary',
-                      '&:hover': {
-                        color: 'primary.main',
-                        backgroundColor: 'rgba(16, 185, 129, 0.08)',
-                      },
-                    }}
-                  >
-                    <GitHubIcon />
-                  </IconButton>
-                )}
-                {settings.linkedIn && (
-                  <IconButton
-                    href={settings.linkedIn}
-                    target="_blank"
-                    rel="noopener"
-                    sx={{
-                      color: 'text.secondary',
-                      '&:hover': {
-                        color: 'primary.main',
-                        backgroundColor: 'rgba(16, 185, 129, 0.08)',
-                      },
-                    }}
-                  >
-                    <LinkedInIcon />
-                  </IconButton>
-                )}
-              </Stack>
-            </AnimatedSection>
-          )}
+                Or just say hello →
+              </Link>
+            </Stack>
+          </AnimatedSection>
         </Box>
 
         {settings?.headshotUrl && (
