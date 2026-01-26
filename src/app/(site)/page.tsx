@@ -23,6 +23,7 @@ import EmptyState from '@/components/EmptyState';
 import ChipList from '@/components/ChipList';
 import LogoAvatar from '@/components/LogoAvatar';
 import RichBulletList from '@/components/RichBulletList';
+import ContactForm from '@/components/ContactForm';
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -498,6 +499,25 @@ export default async function Home() {
             <EmptyState message="No education added yet. Add some in the Studio!" />
           )}
         </Stack>
+      </Box>
+
+      <SectionDivider />
+
+      {/* Contact Section */}
+      <Box id="contact" sx={{ py: { xs: 6, md: 10 }, scrollMarginTop: '80px' }}>
+        <SectionHeader 
+          label="Get in Touch"
+          title="Contact"
+          description="Have a question or want to work together? Drop me a message!"
+        />
+
+        <AnimatedSection>
+          <Card>
+            <CardContent sx={{ p: { xs: 2.5, sm: 4 } }}>
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </AnimatedSection>
       </Box>
 
       {/* Footer spacing */}
