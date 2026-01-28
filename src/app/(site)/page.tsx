@@ -8,8 +8,8 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
-import { alpha } from '@mui/material/styles';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { client } from '@/sanity/client';
@@ -153,7 +153,7 @@ export default async function Home() {
                     color: 'text.secondary',
                     '&:hover': {
                       color: 'primary.main',
-                      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+                      backgroundColor: 'action.hover',
                     },
                   }}
                 >
@@ -169,7 +169,7 @@ export default async function Home() {
                     color: 'text.secondary',
                     '&:hover': {
                       color: 'primary.main',
-                      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+                      backgroundColor: 'action.hover',
                     },
                   }}
                 >
@@ -344,74 +344,77 @@ export default async function Home() {
         <Stack spacing={3}>
           {projects.map((project, index) => (
             <AnimatedSection key={project._id} delay={index * 100}>
-              <Card 
-                sx={{ 
-                  display: 'flex', 
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  overflow: 'hidden',
-                }}
+              <NextLink 
+                href={`/projects/${project.slug.current}`}
+                style={{ textDecoration: 'none' }}
               >
-                {project.imageUrl && (
-                  <CardMedia
-                    component="img"
-                    sx={{ 
-                      width: { xs: '100%', sm: 220 }, 
-                      height: { xs: 180, sm: 'auto' },
-                      objectFit: 'cover',
-                    }}
-                    image={project.imageUrl}
-                    alt={project.title}
-                  />
-                )}
-                <CardContent sx={{ flex: 1, p: { xs: 2.5, sm: 3 } }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                    <Typography variant="h5" component="h3" sx={{ fontWeight: 500 }}>
-                      {project.title}
-                    </Typography>
-                    {project.featured && <StatusChip label="Featured" />}
-                  </Box>
-                  
-                  {project.description && (
+                <Card 
+                  sx={{ 
+                    display: 'flex', 
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                    },
+                  }}
+                >
+                  {project.imageUrl && (
+                    <CardMedia
+                      component="img"
+                      sx={{ 
+                        width: { xs: '100%', sm: 220 }, 
+                        height: { xs: 180, sm: 'auto' },
+                        minHeight: { sm: 200 },
+                        objectFit: 'cover',
+                        flexShrink: 0,
+                      }}
+                      image={project.imageUrl}
+                      alt={project.title}
+                    />
+                  )}
+                  <CardContent sx={{ flex: 1, p: { xs: 2.5, sm: 3 } }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                      <Typography variant="h5" component="h3" sx={{ fontWeight: 500 }}>
+                        {project.title}
+                      </Typography>
+                      {project.featured && <StatusChip label="Featured" />}
+                    </Box>
+                    
+                    {project.description && (
+                      <Typography 
+                        variant="body2" 
+                        sx={{ color: 'text.secondary', mb: 2.5, lineHeight: 1.6 }}
+                      >
+                        {project.description}
+                      </Typography>
+                    )}
+                    
+                    <ChipList items={project.techStack || []} sx={{ mb: 2.5 }} />
+                    
+                    {project.achievements && project.achievements.length > 0 && (
+                      <Box sx={{ mb: 2.5 }}>
+                        <AchievementBox achievements={project.achievements} />
+                      </Box>
+                    )}
+                    
                     <Typography 
                       variant="body2" 
-                      sx={{ color: 'text.secondary', mb: 2.5, lineHeight: 1.6 }}
+                      sx={{ 
+                        color: 'primary.main', 
+                        fontWeight: 500,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.5,
+                      }}
                     >
-                      {project.description}
+                      View Project Details →
                     </Typography>
-                  )}
-                  
-                  <ChipList items={project.techStack || []} sx={{ mb: 2.5 }} />
-                  
-                  {project.achievements && project.achievements.length > 0 && (
-                    <Box sx={{ mb: 2.5 }}>
-                      <AchievementBox achievements={project.achievements} />
-                    </Box>
-                  )}
-                  
-                  <Stack direction="row" spacing={3}>
-                    {project.liveUrl && (
-                      <Link 
-                        href={project.liveUrl} 
-                        target="_blank" 
-                        rel="noopener"
-                        sx={{ fontSize: '0.875rem', fontWeight: 500 }}
-                      >
-                        Live Demo →
-                      </Link>
-                    )}
-                    {project.githubUrl && (
-                      <Link 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener"
-                        sx={{ fontSize: '0.875rem', fontWeight: 500 }}
-                      >
-                        GitHub →
-                      </Link>
-                    )}
-                  </Stack>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </NextLink>
             </AnimatedSection>
           ))}
 

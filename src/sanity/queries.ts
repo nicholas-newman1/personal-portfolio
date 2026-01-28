@@ -32,6 +32,39 @@ export const featuredProjectsQuery = groq`
   }
 `;
 
+export const projectBySlugQuery = groq`
+  *[_type == "project" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    description,
+    role,
+    duration,
+    "imageUrl": image.asset->url,
+    techStack,
+    liveUrl,
+    githubUrl,
+    featured,
+    publishedAt,
+    overview,
+    technicalDetails,
+    features,
+    achievements,
+    learnings,
+    "gallery": gallery[] {
+      "url": asset->url,
+      caption,
+      alt
+    }
+  }
+`;
+
+export const projectSlugsQuery = groq`
+  *[_type == "project"] {
+    "slug": slug.current
+  }
+`;
+
 export const workExperienceQuery = groq`
   *[_type == "workExperience"] | order(startDate desc) {
     _id,
