@@ -7,18 +7,24 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  backgroundImage: 'none',
+  backgroundColor: alpha(theme.palette.background.paper, 0.5),
+  backdropFilter: 'blur(10px)',
   borderRadius: theme.spacing(1.5),
-  border: `1px solid ${theme.palette.divider}`,
+  border: `1px solid ${alpha(theme.palette.common.white, 0.06)}`,
   boxShadow: 'none',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   '&:before': {
     display: 'none',
   },
   '&.Mui-expanded': {
     margin: 0,
+  },
+  '&:hover': {
+    borderColor: alpha(theme.palette.primary.main, 0.3),
   },
 }));
 
@@ -38,7 +44,7 @@ const StyledAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
 
 const StyledAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
   padding: theme.spacing(0, 2.5, 2.5, 2.5),
-  borderTop: `1px solid ${theme.palette.divider}`,
+  borderTop: `1px solid ${alpha(theme.palette.common.white, 0.06)}`,
   paddingTop: theme.spacing(2.5),
 }));
 
