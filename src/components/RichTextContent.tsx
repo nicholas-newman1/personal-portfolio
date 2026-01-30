@@ -24,12 +24,14 @@ const richTextComponents: PortableTextComponents = {
       <Typography
         variant="h6"
         component="h3"
-        sx={{
-          fontWeight: 500,
-          mb: 2,
-          mt: 3,
-          '&:first-of-type': { mt: 0 },
-        }}
+        sx={(theme) => ({
+          fontWeight: 600,
+          mb: 3,
+          mt: 5,
+          pt: 3,
+          borderTop: `1px solid ${theme.palette.divider}`,
+          '&:first-of-type': { mt: 0, pt: 0, borderTop: 'none' },
+        })}
       >
         {children}
       </Typography>
